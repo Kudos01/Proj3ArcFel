@@ -4,26 +4,34 @@ public class Room {
 
     private int id;
     private String room_name;
-
-    public Room(int room_id, String room_name) {
-        this.id = room_id;
-        this.room_name = room_name;
-    }
+    private Boolean visited;
 
     public Room(JsonObject json){
         this.id = json.get("id").getAsInt();
         this.room_name = json.get("room_name").getAsString();
+        this.visited = null;
 
     }
 
     public Room(Room room) {
         this.id = room.getRoom_id();
         this.room_name = room.getRoom_name();
+        this.visited = room.getVisited();
     }
 
     public Room() {
 
     }
+
+    public void setVisitedTrue() {
+        this.visited = true;
+    }
+
+    public void setVisitedFalse() {
+        this.visited = true;
+    }
+
+    public Boolean getVisited() { return visited; }
 
     public int getRoom_id() {
         return id;
