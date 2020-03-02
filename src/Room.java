@@ -19,10 +19,6 @@ public class Room {
         this.visited = room.getVisited();
     }
 
-    public Room() {
-
-    }
-
     public void setVisitedTrue() {
         this.visited = true;
     }

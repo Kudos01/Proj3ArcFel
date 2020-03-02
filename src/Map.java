@@ -4,7 +4,7 @@ public class Map {
     //map should contain all rooms and connections
     private Room[] all_rooms;
     private Connection[] all_connections;
-    int adjacency_matrix [][];
+    int[][] adjacency_matrix;
 
     public Map() {
         this.all_rooms = JsonParser.parseRoom();
@@ -17,20 +17,35 @@ public class Map {
                 adjacency_matrix[i][j] = Integer.MAX_VALUE;
             }
         }
-        for (int i = 0; i < all_connections.length ; i++) {
-            for (int j = 0; j < all_connections[i].getConnected_rooms().length;j++) {
-                if( all_connections[i].getConnected_rooms().length > 2){
-                    adjacency_matrix[all_connections[i].getConnected_rooms()[0]][all_connections[i].getConnected_rooms()[1]] =
-                }
 
+        for (int i = 0; i < all_connections.length ; i++) {
+
+            if (all_connections[i].getConnected_rooms().length == 2) {
+
+                adjacency_matrix[all_connections[i].getConnected_rooms()[0]][all_connections[i].getConnected_rooms()[1]] = all_connections[i].getEnemy_probability();
+            } else{
+
+                for (int j = 0; j < all_connections[i].getConnected_rooms().length -1; j++) {
+                    for (int k = 0; k < all_connections[i].getConnected_rooms().length -1 -j; k++) {
+                        adjacency_matrix[all_connections[i].getConnected_rooms()[j]][all_connections[i].getConnected_rooms()[k]] = all_connections[i].getEnemy_probability();
+                    }
+                }
             }
         }
+
+        for (int i = 0; i < all_rooms.length; i++) {
+            for (int j = 0; j < all_rooms.length; j++) {
+                if(adjacency_matrix[i][j] != Integer.MAX_VALUE){
+                    System.out.println(adjacency_matrix[i][j]);
+                }
+            }
+        }
+
     }
 
     public Room[] getAll_rooms() {
         return all_rooms;
     }
-
 
     public Connection[] getAll_connections() {
         return all_connections;
