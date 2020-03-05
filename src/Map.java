@@ -6,7 +6,6 @@ public class Map {
     //map should contain all rooms and connections
     private Room[] all_rooms;
     private Connection[] all_connections;
-    //HashMap<String, Connection> adjacency;
     private Connection[][] adjacency;
 
     public Map() {
@@ -15,63 +14,7 @@ public class Map {
         this.all_connections = JsonParser.parseConnection();
         this.adjacency = this.makeList();
 
-        for (int i = 0; i <adjacency.length ; i++) {
-            System.out.println("Room:");
-            System.out.println(i);
-            System.out.println("Connections:");
-            for (int j = 0; j < adjacency[i].length; j++) {
-
-                System.out.println(adjacency[i][j].getConnection_id());
-                //System.out.println(adjacency[i].length);
-
-            }
-
-        }
-
-        // Print keys and values
-        //for (String i : adjacency.keySet()) {
-            //System.out.println("key: " + i + " value: " + adjacency.get(i).getConnection_name());
-        //}
-
-
-        //JsonParser.testParsing(all_rooms,all_connections);
-
-
-        /*
-        this.adjacency_matrix = new int [all_rooms.length][all_rooms.length];
-
-        for (int i = 0; i < all_rooms.length; i++) {
-            for (int j = 0; j < all_rooms.length; j++) {
-                adjacency_matrix[i][j] = Integer.MAX_VALUE;
-            }
-        }
-
-        for (int i = 0; i < all_connections.length ; i++) {
-
-            if (all_connections[i].getConnected_rooms().length == 2) {
-
-                adjacency_matrix[all_connections[i].getConnected_rooms()[0]][all_connections[i].getConnected_rooms()[1]] = all_connections[i].getEnemy_probability();
-            } else{
-
-                for (int j = 0; j < all_connections[i].getConnected_rooms().length -1; j++) {
-                    for (int k = 0; k < all_connections[i].getConnected_rooms().length -1 -j; k++) {
-                        adjacency_matrix[all_connections[i].getConnected_rooms()[j]][all_connections[i].getConnected_rooms()[k]] = all_connections[i].getEnemy_probability();
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i < all_rooms.length; i++) {
-            for (int j = 0; j < all_rooms.length; j++) {
-                if(adjacency_matrix[i][j] != Integer.MAX_VALUE){
-                    System.out.println(adjacency_matrix[i][j]);
-                }
-            }
-        }
-        */
-
     }
-
 
     public Connection[][] makeList(){
 
@@ -125,11 +68,63 @@ public class Map {
 
     public Room[] getAdjacent(Room given){
 
+        int counter = 0;
+
+        for (int i = 0; i < adjacency[given.getRoom_id()].length; i++) {
+            //get the total number of adjacent rooms
+            counter =+ adjacency[given.getRoom_id()][i].getConnected_rooms().length-1;
+        }
+        int[] adjacents_int = new int[counter];
+
+        //for each room that's adjacent
+        for (int i = 0; i < counter ; i++) {
+            //check which connected rooms are
+            for (int j = 0; j <adjacency[given.getRoom_id()][i].getConnected_rooms().length ; j++) {
+                if(given.getRoom_id() != adjacency[given.getRoom_id()][i].getConnected_rooms()[j]){
+                    adjacents_int[i] = adjacency[given.getRoom_id()][i].getConnected_rooms()[j];
+                }
+            }
+        }
+
+        Room[] adjacent_rooms = new Room[counter];
+
+        for (int i = 0; i < adjacents_int.length; i++) {
+
+            adjacent_rooms[i] = getRoomById(adjacents_int[i]);
+
+        }
 
 
-       // return adjacents;
+
+       return adjacent_rooms;
+
+    }
+
+    private Room getRoomById(int id){
+
+        for (int i = 0; i < all_rooms.length; i++) {
+            if(id ==  all_rooms[i].getRoom_id() ){
+                return  all_rooms[i];
+            }
+        }
         return null;
+    }
 
+    private void checkList(){
+
+        for (int i = 0; i <adjacency.length ; i++) {
+            System.out.println("Length of pos "+i+":");
+            System.out.println(adjacency[i].length);
+            System.out.println("Room:");
+            System.out.println(i);
+            System.out.println("Connections:");
+            for (int j = 0; j < adjacency[i].length; j++) {
+
+                System.out.println(adjacency[i][j].getConnection_id());
+
+            }
+
+        }
     }
 
 }

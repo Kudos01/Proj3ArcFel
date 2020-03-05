@@ -57,7 +57,6 @@ function dijkstra (g: Graph, start: Node, end: Node) returns Walk
     }
 
 
-
     private boolean allVisited(Map original){
         for (int i = 0; i < original.getAll_rooms().length; i++) {
             if(!original.getAll_rooms()[i].getVisited()){
@@ -77,15 +76,6 @@ function dijkstra (g: Graph, start: Node, end: Node) returns Walk
         return false;
     }
 
-    private Room getRoomById(Map original, int id){
-
-        for (int i = 0; i < original.getAll_rooms().length ; i++) {
-            if(id == original.getAll_rooms()[i].getRoom_id() ){
-                return original.getAll_rooms()[i];
-            }
-        }
-        return null;
-    }
 
     
 }
