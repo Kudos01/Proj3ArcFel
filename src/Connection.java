@@ -25,6 +25,10 @@ public class Connection {
 
     }
 
+    public Connection() {
+
+    }
+
     public int getConnection_id() {
         return id;
     }

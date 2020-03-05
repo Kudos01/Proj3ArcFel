@@ -6,18 +6,31 @@ public class Map {
     //map should contain all rooms and connections
     private Room[] all_rooms;
     private Connection[] all_connections;
-    HashMap<String, Connection> adjacency;
+    //HashMap<String, Connection> adjacency;
+    private Connection[][] adjacency;
 
     public Map() {
 
         this.all_rooms = JsonParser.parseRoom();
         this.all_connections = JsonParser.parseConnection();
-        this.hashMap();
+        this.adjacency = this.makeList();
+
+        for (int i = 0; i <adjacency.length ; i++) {
+            System.out.println("Room:");
+            System.out.println(i);
+            System.out.println("Connections:");
+            for (int j = 0; j < adjacency[i].length; j++) {
+
+                System.out.println(adjacency[i][j].getConnection_id());
+
+            }
+
+        }
 
         // Print keys and values
-        for (String i : adjacency.keySet()) {
-            System.out.println("key: " + i + " value: " + adjacency.get(i).getConnection_name());
-        }
+        //for (String i : adjacency.keySet()) {
+            //System.out.println("key: " + i + " value: " + adjacency.get(i).getConnection_name());
+        //}
 
 
         //JsonParser.testParsing(all_rooms,all_connections);
@@ -59,8 +72,8 @@ public class Map {
     }
 
     public void hashMap(){
-
         /*
+
         this.adjacency = new HashMap<String, Connection>();
         for (int i = 0; i < all_connections.length ; i++) {
             StringBuilder sb = new StringBuilder();
@@ -81,15 +94,51 @@ public class Map {
 
     }
 
-    public void makeList(){
+    public Connection[][] makeList(){
 
-        for (int i = 0; i < all_connections.length ; i++) {
-            for (int j = 0; j < all_connections[i].getConnected_rooms().length; j++) {
+        Connection[][] adjacent;
+        //Connection []room_connections;
+        
+        int counter;
 
+        adjacent = new Connection[all_rooms.length][];
+
+        HashMap<Integer, Connection> roomConnections= new HashMap<Integer, Connection>();
+
+        //for each room
+        for (int i = 0; i < all_rooms.length; i++) {
+            //reset the size of the number of connections in that position
+            counter=0;
+
+            //for all connections
+            for (int k = 0; k < all_connections.length ; k++) {
+                //for all connected rooms
+                for (int j = 0; j < all_connections[k].getConnected_rooms().length; j++) {
+                    //if the first room has its id in the connected rooms matrix
+                    if(all_rooms[i].getRoom_id() == all_connections[k].getConnected_rooms()[j]){
+                        //store the connection in a hash map
+                        roomConnections.put(counter,all_connections[k]);
+                        //add one position in the matrix
+                        counter++;
+                        break;
+                    }
+
+                }
 
             }
 
+            adjacent[i] = new Connection[counter];
+
+            for (Integer b: roomConnections.keySet()) {
+                adjacent[i][b] = roomConnections.get(b);
+            }
+
+            roomConnections.clear();
+
         }
+
+        return adjacent;
+
     }
 
     public Room[] getAll_rooms() {
@@ -101,6 +150,8 @@ public class Map {
     }
 
     public Room[] getAdjacent(Room given){
+
+
 
        // return adjacents;
         return null;
