@@ -124,7 +124,6 @@ public class Map {
                     }
 
                 }
-
             }
 
             adjacent[i] = new Connection[counter];
@@ -135,6 +134,13 @@ public class Map {
 
             roomConnections.clear();
 
+        }
+
+
+        for (int i = 0; i < all_connections.length; i++) {
+            for (int j = 0; j < all_connections[i].getConnected_rooms().length; j++) {
+                adjacent[all_rooms[all_connections[i].getConnected_rooms()[j]].getRoom_id()][] = ;
+            }
         }
 
         return adjacent;
