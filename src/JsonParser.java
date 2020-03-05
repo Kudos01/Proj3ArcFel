@@ -51,7 +51,6 @@ public class JsonParser {
                 connections[i] = new Connection(j.get(i).getAsJsonObject());
             }
 
-
         }catch (IOException e){
             e.printStackTrace();
         }finally {

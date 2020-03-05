@@ -22,6 +22,7 @@ public class Map {
             for (int j = 0; j < adjacency[i].length; j++) {
 
                 System.out.println(adjacency[i][j].getConnection_id());
+                //System.out.println(adjacency[i].length);
 
             }
 
@@ -71,37 +72,12 @@ public class Map {
 
     }
 
-    public void hashMap(){
-        /*
-
-        this.adjacency = new HashMap<String, Connection>();
-        for (int i = 0; i < all_connections.length ; i++) {
-            StringBuilder sb = new StringBuilder();
-            for (int j = 0; j < all_connections[i].getConnected_rooms().length; j++) {
-
-                sb.append(all_connections[i].getConnected_rooms()[j]);
-
-                if(j!=all_connections[i].getConnected_rooms().length-1){
-                    sb.append("_");
-                }
-
-            }
-            String connected_room_key = sb.toString();
-            adjacency.put(connected_room_key,all_connections[i]);
-        }
-
-         */
-
-    }
 
     public Connection[][] makeList(){
 
-        Connection[][] adjacent;
-        //Connection []room_connections;
-        
         int counter;
 
-        adjacent = new Connection[all_rooms.length][];
+        Connection[][] adjacent = new Connection[all_rooms.length][];
 
         HashMap<Integer, Connection> roomConnections= new HashMap<Integer, Connection>();
 
@@ -122,7 +98,6 @@ public class Map {
                         counter++;
                         break;
                     }
-
                 }
             }
 
@@ -134,13 +109,6 @@ public class Map {
 
             roomConnections.clear();
 
-        }
-
-
-        for (int i = 0; i < all_connections.length; i++) {
-            for (int j = 0; j < all_connections[i].getConnected_rooms().length; j++) {
-                adjacent[all_rooms[all_connections[i].getConnected_rooms()[j]].getRoom_id()][] = ;
-            }
         }
 
         return adjacent;
