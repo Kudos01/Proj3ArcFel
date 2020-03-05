@@ -10,7 +10,10 @@ function dijkstra (g: Graph, start: Node, end: Node) returns Walk
         while there are nodes left to visit and end is not visited do
             for each adj in g.adjacents(current) do
             if ¬adj.visited then
+
+
         new := d[current] + g.edge(current, adj).weight()
+        new:= probability current +
         if d[adj] > new then
         d[adj] := new
                 walks.update(adj, current)
@@ -38,14 +41,13 @@ function dijkstra (g: Graph, start: Node, end: Node) returns Walk
         while(allVisited(original) && !endVisited(original, end)){
             for (Room adj: original.getAdjacent(current)) {
                 if(!adj.getVisited()){
-                    if(adj.getVisited()){
-                        //create new connection?
-                        //if(){
-                            /*
-                        middle nonsense
-                         */
-                        //}
-                    }
+                float prob = -1;
+                //adj.getProbability + original.get
+                //get the new probability of going to that node
+                 if(probabilities[adj.getRoom_id()] > prob){
+                     probabilities[adj.getRoom_id()] = prob;
+                     //update the route
+                 }
                 }
             }
 
