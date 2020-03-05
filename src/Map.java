@@ -60,6 +60,7 @@ public class Map {
 
     public void hashMap(){
 
+        /*
         this.adjacency = new HashMap<String, Connection>();
         for (int i = 0; i < all_connections.length ; i++) {
             StringBuilder sb = new StringBuilder();
@@ -76,6 +77,19 @@ public class Map {
             adjacency.put(connected_room_key,all_connections[i]);
         }
 
+         */
+
+    }
+
+    public void makeList(){
+
+        for (int i = 0; i < all_connections.length ; i++) {
+            for (int j = 0; j < all_connections[i].getConnected_rooms().length; j++) {
+
+
+            }
+
+        }
     }
 
     public Room[] getAll_rooms() {
