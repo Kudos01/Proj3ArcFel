@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class Algorithim {
 
 
@@ -32,7 +34,8 @@ function dijkstra (g: Graph, start: Node, end: Node) returns Walk
         int tmp = 0;
 
         //routes -> List of the walks to each node from start
-        Route[] routes = new Route[0];
+        //Route[] routes = new Route[0];
+        HashMap<String, Route> walk = new HashMap<String, Route>();
         float[] probabilities = new float[tmp];
 
         Room current = new Room(start);
@@ -41,17 +44,18 @@ function dijkstra (g: Graph, start: Node, end: Node) returns Walk
         while(allVisited(original) && !endVisited(original, end)){
             for (Room adj: original.getAdjacent(current)) {
                 if(!adj.getVisited()){
-                float prob = -1;
-                //adj.getProbability + original.get
-                //get the new probability of going to that node
-                 if(probabilities[adj.getRoom_id()] > prob){
-                     probabilities[adj.getRoom_id()] = prob;
-                     //update the route
-                 }
+                    float prob = -1;
+                    //adj.getProbability + original.get
+                    //get the new probability of going to that node
+                     if(probabilities[adj.getRoom_id()] > prob){
+                         probabilities[adj.getRoom_id()] = prob;
+                         //update the route
+                     }
                 }
             }
 
             current.setVisitedTrue();
+            //update route rather than room
             //current := minimum not visited value from d
         }
 
