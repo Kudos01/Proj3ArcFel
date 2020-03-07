@@ -7,7 +7,7 @@ public class Map {
     //map should contain all rooms and connections
     private Room[] all_rooms;
     private Connection[] all_connections;
-    private LinkedList<LinkedList<Connection>> adjacency_list;
+    private LinkedList[] adjacency_list;
 
     public Map() throws Exception {
 
@@ -36,12 +36,14 @@ public class Map {
 
     }
 
-    private LinkedList<LinkedList<Connection>> makeList() throws Exception {
+    private LinkedList[] makeList() throws Exception {
 
-        LinkedList<LinkedList<Connection>> adjacency_list = new LinkedList<LinkedList<Connection>>();
+        //beans?
+
+        LinkedList[] adjacency_list = new LinkedList[all_rooms.length];
 
         for (int i = 0; i < all_rooms.length; ++i) {
-            //adjacency_list = new MyArrayList();
+            adjacency_list[i] = new LinkedList();
             //initialize all linked lists
         }
 
