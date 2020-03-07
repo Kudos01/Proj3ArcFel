@@ -1,9 +1,9 @@
 import java.util.HashMap;
-
+    /*
 public class Algorithim {
 
 
-    /*
+
 function dijkstra (g: Graph, start: Node, end: Node) returns Walk
         walks: List of the walks to each node from start
         d: Array to store the distances from the start node to each node
@@ -28,7 +28,7 @@ function dijkstra (g: Graph, start: Node, end: Node) returns Walk
         return walks.get(end)
         end
 
- */
+
 
     private Route dman(Map original, Room start, Room end){
         int tmp = 0;
@@ -86,3 +86,4 @@ function dijkstra (g: Graph, start: Node, end: Node) returns Walk
     
 }
 
+ */

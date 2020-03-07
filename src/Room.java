@@ -5,6 +5,8 @@ public class Room {
     private int id;
     private String room_name;
     private Boolean visited;
+    private Connection[] all_room_connections;
+
 
     public Room(JsonObject json){
         this.id = json.get("id").getAsInt();
@@ -17,6 +19,10 @@ public class Room {
         this.id = room.getRoom_id();
         this.room_name = room.getRoom_name();
         this.visited = room.getVisited();
+    }
+
+    public void setAll_room_connections(Connection[] all_room_connections) {
+        this.all_room_connections = all_room_connections;
     }
 
     public void setVisitedTrue() {
@@ -35,5 +41,9 @@ public class Room {
 
     public String getRoom_name() {
         return room_name;
+    }
+
+    public Connection[] getAll_room_connections() {
+        return all_room_connections;
     }
 }

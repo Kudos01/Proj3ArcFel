@@ -6,7 +6,10 @@ public class Main {
 
         //JsonParser.testParsing(all_rooms, all_connections);
 
+        System.out.println("Beans");
+
         Map m = new Map();
+
         
     }
 
