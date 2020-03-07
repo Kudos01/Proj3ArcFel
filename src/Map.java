@@ -7,13 +7,15 @@ public class Map {
     //map should contain all rooms and connections
     private Room[] all_rooms;
     private Connection[] all_connections;
-    private LinkedList[] adjacency_list;
+    private Connection[][] adjacency_list;
 
     public Map() throws Exception {
 
         this.all_rooms = JsonParser.parseRoom();
         this.all_connections = JsonParser.parseConnection();
         this.adjacency_list = this.makeList();
+
+        System.out.println("Hoes we did it");
 
         /*
 
@@ -36,31 +38,6 @@ public class Map {
 
     }
 
-    private LinkedList[] makeList() throws Exception {
-
-        //beans?
-
-        LinkedList[] adjacency_list = new LinkedList[all_rooms.length];
-
-        for (int i = 0; i < all_rooms.length; ++i) {
-            adjacency_list[i] = new LinkedList();
-            //initialize all linked lists
-        }
-
-        for (int j = 0; j < all_connections.length; j++) {
-            for (int k = 0; k < all_connections[j].getConnected_rooms().length ; k++) {
-
-                //adjacency_list[all_connections[j].getConnected_rooms()[k]].add(all_connections[j]);
-                //System.out.println(adjacency_list[all_connections[j].getConnected_rooms()[k]].get(j));
-                //save information into linked list here
-            }
-
-        }
-
-        return adjacency_list;
-    }
-
-    /*
 
     public Connection[][] makeList(){
 
@@ -106,19 +83,20 @@ public class Map {
 
             int adj_counter =0;
 
+            System.out.println("In room "+ i+ " we have connections: ");
+
             for (Integer b: roomConnections.keySet()) {
                 adjacent[i][b] = roomConnections.get(b);
 
-                all_adjacents[adj_counter] = new Adjacent(i,roomConnections.get(b));
+                //all_adjacents[adj_counter] = new Adjacent(i,roomConnections.get(b));
 
+                System.out.println(adjacent[i][b].getConnection_name());
                 //current_room_connections[b] = roomConnections.get(b);
                 adj_counter++;
             }
 
            // all_rooms[i].setAll_room_connections(current_room_connections);
             //Room room = new Room(i,current_room_connections);
-
-
 
             roomConnections.clear();
 
@@ -136,6 +114,7 @@ public class Map {
         return all_connections;
     }
 
+    /*
     public Room[] getAdjacent(Room given){
 
         int counter =0;
