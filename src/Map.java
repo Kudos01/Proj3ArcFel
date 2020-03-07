@@ -1,55 +1,59 @@
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.jar.JarOutputStream;
 
 public class Map {
     //map should contain all rooms and connections
     private Room[] all_rooms;
     private Connection[] all_connections;
-    private LinkedList[] adjacency_list;
+    private LinkedList<LinkedList<Connection>> adjacency_list;
 
-    public Map() {
+    public Map() throws Exception {
 
         this.all_rooms = JsonParser.parseRoom();
         this.all_connections = JsonParser.parseConnection();
         this.adjacency_list = this.makeList();
 
-        for (int i = 0; i <adjacency_list.length ; i++) {
-            System.out.println("Room "+adjacency_list[i]);
-            adjacency_list[i].toString();
+        /*
 
+        for (int i = 0; i <adjacency_list.length ; i++) {
+            System.out.println("Room "+i);
+
+            for (int j = 0; j < adjacency_list[i].getSize(); j++) {
+
+                System.out.println(adjacency_list[i].get(j));
+
+                System.out.println("Connection: "+ j);
+                Connection c = (Connection) adjacency_list[i].get(j);
+                System.out.println(c.getConnection_id());
+
+            }
 
         }
+
+         */
 
     }
 
-    private LinkedList[] makeList(){
+    private LinkedList<LinkedList<Connection>> makeList() throws Exception {
 
-        System.out.println("We in dis bitch");
+        LinkedList<LinkedList<Connection>> adjacency_list = new LinkedList<LinkedList<Connection>>();
 
-        LinkedList[] adjacency_list = new LinkedList[all_rooms.length];
-
-        for (int i = 0; i < adjacency_list.length; i++) {
-
-            adjacency_list[i] = new LinkedList();
-
+        for (int i = 0; i < all_rooms.length; ++i) {
+            //adjacency_list = new MyArrayList();
+            //initialize all linked lists
         }
 
-        System.out.println("we initialized LL");
+        for (int j = 0; j < all_connections.length; j++) {
+            for (int k = 0; k < all_connections[j].getConnected_rooms().length ; k++) {
 
-            for (int j = 0; j < all_connections.length; j++) {
-                for (int k = 0; k < all_connections[j].getConnected_rooms().length ; k++) {
-
-                    System.out.println("we addin those connections");
-                    //adjacency_list[all_connections[j].getConnected_rooms()[k]].add(adjacency_list[all_connections[j].getConnected_rooms()[k]],all_connections[j]);
-                    adjacency_list[all_connections[j].getConnected_rooms()[k]].add(all_connections[j]);
-                    System.out.println( adjacency_list[all_connections[j].getConnected_rooms()[k]].get(k));
-                }
-
-                System.out.println("we goin to the next connection");
-
+                //adjacency_list[all_connections[j].getConnected_rooms()[k]].add(all_connections[j]);
+                //System.out.println(adjacency_list[all_connections[j].getConnected_rooms()[k]].get(j));
+                //save information into linked list here
             }
-        System.out.println(adjacency_list);
+
+        }
 
         return adjacency_list;
     }
