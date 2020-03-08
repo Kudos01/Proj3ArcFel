@@ -12,12 +12,13 @@ public class Main {
 
         Map m = new Map();
 
-        //Room[] rooms = m.getAll_rooms();
+        Dijkstra dijkstra = new Dijkstra();
+
+
+
         //Connection[] connections = m.getAll_connections();
 
         //test t = new test();
-
-
 
     }
 }

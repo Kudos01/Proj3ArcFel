@@ -25,7 +25,7 @@ public class Map {
     }
 
 
-    public Room[] getAdjacents(Room given){
+    public Room[] getAdjacent(Room given){
 
         StringBuilder sb = new StringBuilder();
 
@@ -66,6 +66,7 @@ public class Map {
         for (int i = 0; i < connections_of_room.length; i++) {
             for (int j = 0; j < connections_of_room[i].getConnected_rooms().length; j++) {
                 rooms_connected[total_rooms] = all_rooms[connections_of_room[i].getConnected_rooms()[j]];
+                rooms_connected[total_rooms].setAttachedTo(connections_of_room[i]);
                 total_rooms++;
             }
         }

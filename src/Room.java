@@ -5,24 +5,25 @@ public class Room {
     private int id;
     private String room_name;
     private Boolean visited;
-    private Connection[] all_room_connections;
+    private Connection attachedTo;
 
+
+    public void setAttachedTo(Connection attachedTo) {
+        this.attachedTo = attachedTo;
+    }
 
     public Room(JsonObject json){
         this.id = json.get("id").getAsInt();
         this.room_name = json.get("room_name").getAsString();
-        this.visited = null;
-
+        this.visited = false;
+        this.attachedTo = null;
     }
 
     public Room(Room room) {
         this.id = room.getRoom_id();
         this.room_name = room.getRoom_name();
         this.visited = room.getVisited();
-    }
-
-    public void setAll_room_connections(Connection[] all_room_connections) {
-        this.all_room_connections = all_room_connections;
+        this.attachedTo = room.getAttachedTo();
     }
 
     public void setVisitedTrue() {
@@ -43,7 +44,7 @@ public class Room {
         return room_name;
     }
 
-    public Connection[] getAll_room_connections() {
-        return all_room_connections;
+    public Connection getAttachedTo() {
+        return attachedTo;
     }
 }

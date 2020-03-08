@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class Dijkstra {
 
     /*
@@ -24,24 +26,24 @@ public class Dijkstra {
     end
         return walks.get(end)
     end
-
+    */
 
 
     private Route dman(Map original, Room start, Room end){
-        int tmp = 0;
+        int prob = 0;
 
         //routes -> List of the walks to each node from start
         //Route[] routes = new Route[0];
-        HashMap<String, Route> walk = new HashMap<String, Route>();
-        float[] probabilities = new float[tmp];
+        HashMap<String, Route[]> walk = new HashMap<String, Route[]>();
+        int[] probabilities = new int[original.getAll_rooms().length];
 
         Room current = new Room(start);
 
         //while there are nodes left to visit and end is not visited do
-        while(allVisited(original) && !endVisited(original, end)){
+        while(!allVisited(original) && !endVisited(original, end)){
             for (Room adj: original.getAdjacent(current)) {
                 if(!adj.getVisited()){
-                    float prob = -1;
+                    prob += adj.getAttachedTo().getEnemy_probability();
                     //adj.getProbability + original.get
                     //get the new probability of going to that node
                     if(probabilities[adj.getRoom_id()] > prob){
@@ -53,7 +55,15 @@ public class Dijkstra {
 
             current.setVisitedTrue();
             //update route rather than room
-            //current := minimum not visited value from d
+
+            int min = original.getAdjacent(current)[0].getAttachedTo().getEnemy_probability();
+
+            for (int i = 0; i < original.getAdjacent(current).length; i++) {
+                if(original.getAdjacent(current)[i].getAttachedTo().getEnemy_probability() < min){
+                    min = original.getAdjacent(current)[i].getAttachedTo().getEnemy_probability();
+                    current = original.getAdjacent(current)[i];
+                }
+            }
         }
 
         return null;
@@ -79,5 +89,4 @@ public class Dijkstra {
         return false;
     }
 
-     */
 }
