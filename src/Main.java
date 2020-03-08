@@ -13,6 +13,15 @@ public class Main {
 
         Map m = new Map();
 
-        
+        Connection[][] a = m.makeList();
+
+        for (int i = 0; i < a.length; i++) {
+            System.out.println("Room number " + i + " has connections: ");
+            for (int j = 0; j < a[i].length; j++) {
+                //System.out.println(a[i].length);
+                System.out.println(a[i][j].getConnection_id());
+            }
+        }
+
     }
 }
