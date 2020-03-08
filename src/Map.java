@@ -108,9 +108,11 @@ public class Map {
     public int[] dijkstra(){
 
         Room start = all_rooms[0];
-        Room end = all_rooms[10];
+        Room end = all_rooms[20];
 
         int prob = 0;
+        int next_room_index = 0;
+        int best_room_index = 0;
 
         //routes -> List of the walks to each node from start
         //Route[] routes = new Route[0];
@@ -124,29 +126,38 @@ public class Map {
 
         int walks_counter =1;
 
+
+        //fill rooms with connected to?
+
+
         //while there are nodes left to visit and end is not visited do
         while(!allVisited() && !endVisited(end)){
 
             for (Room adj: getAdjacent(current)) {
                 if(!adj.getVisited()){
-                    prob += adj.getAttachedTo().getEnemy_probability();
+                    //prob = adj.getAttachedTo().getEnemy_probability() + current.getAttachedTo().getEnemy_probability();
                     //adj.getProbability + original.get
+
+                    prob = probabilities[adj.getRoom_id()] + current.getAttachedTo().getEnemy_probability();
+
                     //get the new probability of going to that node
                     if(probabilities[adj.getRoom_id()] > prob){
                         probabilities[adj.getRoom_id()] = prob;
-                        //update the route
-                        //walk[adj.getRoom_id()] = walks_counter;
-
+                        //update the candidate for next room
+                        best_room_index = current.getRoom_id();
                     }
                 }
             }
+
+            walk[best_room_index] = walks_counter;
+            walks_counter++;
 
             all_rooms[current.getRoom_id()].setVisitedTrue();
 
             //update route rather than room
 
             int min = getAdjacent(current)[0].getAttachedTo().getEnemy_probability();
-            int next_room_index =0;
+            next_room_index = 0;
             //current = getAdjacent(current)[0];
 
             for (int i = 0; i < getAdjacent(current).length; i++) {
@@ -157,10 +168,7 @@ public class Map {
                     System.out.println("Better current");
                 }
             }
-
             current = getAdjacent(current)[next_room_index];
-
-            walks_counter++;
         }
 
         return walk;

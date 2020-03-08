@@ -15,9 +15,13 @@ public class Main {
 
         System.out.println(Arrays.toString(soultion));
 
-        //Connection[] connections = m.getAll_connections();
+        for (int i = 0; i < soultion.length; i++) {
 
-        //test t = new test();
+            if(soultion[i] != 0){
+                System.out.println("Room "+ i);
+            }
+
+        }
 
     }
 }
