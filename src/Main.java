@@ -11,10 +11,9 @@ public class Main {
         System.out.println("beans");
 
         Map m = new Map();
+        int[] soultion = m.dijkstra();
 
-        Dijkstra dijkstra = new Dijkstra();
-
-
+        System.out.println(Arrays.toString(soultion));
 
         //Connection[] connections = m.getAll_connections();
 

@@ -31,7 +31,7 @@ public class Room {
     }
 
     public void setVisitedFalse() {
-        this.visited = true;
+        this.visited = false;
     }
 
     public Boolean getVisited() { return visited; }

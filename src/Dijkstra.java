@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Dijkstra {
@@ -29,18 +30,23 @@ public class Dijkstra {
     */
 
 
-    private Route dman(Map original, Room start, Room end){
+    public int[] dijkstra(Map original, Room start, Room end){
         int prob = 0;
 
         //routes -> List of the walks to each node from start
         //Route[] routes = new Route[0];
-        HashMap<String, Route[]> walk = new HashMap<String, Route[]>();
-        int[] probabilities = new int[original.getAll_rooms().length];
+        int[] walk = new int[original.getAll_rooms().length];
+        int[] probabilities = new int[original.getAll_connections().length];
+
+        Arrays.fill(probabilities, Integer.MAX_VALUE);
 
         Room current = new Room(start);
 
+        int walks_counter =1;
+
         //while there are nodes left to visit and end is not visited do
         while(!allVisited(original) && !endVisited(original, end)){
+
             for (Room adj: original.getAdjacent(current)) {
                 if(!adj.getVisited()){
                     prob += adj.getAttachedTo().getEnemy_probability();
@@ -49,24 +55,28 @@ public class Dijkstra {
                     if(probabilities[adj.getRoom_id()] > prob){
                         probabilities[adj.getRoom_id()] = prob;
                         //update the route
+                        walk[adj.getRoom_id()] = walks_counter;
                     }
                 }
             }
 
             current.setVisitedTrue();
+
+
             //update route rather than room
 
             int min = original.getAdjacent(current)[0].getAttachedTo().getEnemy_probability();
 
             for (int i = 0; i < original.getAdjacent(current).length; i++) {
-                if(original.getAdjacent(current)[i].getAttachedTo().getEnemy_probability() < min){
+                if(original.getAdjacent(current)[i].getAttachedTo().getEnemy_probability() < min && !original.getAdjacent(current)[i].getVisited()){
                     min = original.getAdjacent(current)[i].getAttachedTo().getEnemy_probability();
                     current = original.getAdjacent(current)[i];
                 }
             }
+            walks_counter++;
         }
 
-        return null;
+        return walk;
     }
 
 
