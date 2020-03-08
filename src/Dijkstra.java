@@ -1,14 +1,11 @@
-import java.util.HashMap;
+public class Dijkstra {
+
     /*
-public class Algorithim {
-
-
-
-function dijkstra (g: Graph, start: Node, end: Node) returns Walk
-        walks: List of the walks to each node from start
-        d: Array to store the distances from the start node to each node
+    function dijkstra (g: Graph, start: Node, end: Node) returns Walk
+    walks: List of the walks to each node from start
+    d: Array to store the distances from the start node to each node
 // We initialize d to 0 for the start node and infinity for the rest
-        current := start
+    current := start
         while there are nodes left to visit and end is not visited do
             for each adj in g.adjacents(current) do
             if ¬adj.visited then
@@ -16,17 +13,17 @@ function dijkstra (g: Graph, start: Node, end: Node) returns Walk
 
         new := d[current] + g.edge(current, adj).weight()
         new:= probability current +
-        if d[adj] > new then
-        d[adj] := new
-                walks.update(adj, current)
-        end
-                end
-        end
-        current.visited := TRUE
-        current := minimum not visited value from d
-        end
+            if d[adj] > new then
+    d[adj] := new
+            walks.update(adj, current)
+    end
+            end
+    end
+    current.visited := TRUE
+    current := minimum not visited value from d
+    end
         return walks.get(end)
-        end
+    end
 
 
 
@@ -47,10 +44,10 @@ function dijkstra (g: Graph, start: Node, end: Node) returns Walk
                     float prob = -1;
                     //adj.getProbability + original.get
                     //get the new probability of going to that node
-                     if(probabilities[adj.getRoom_id()] > prob){
-                         probabilities[adj.getRoom_id()] = prob;
-                         //update the route
-                     }
+                    if(probabilities[adj.getRoom_id()] > prob){
+                        probabilities[adj.getRoom_id()] = prob;
+                        //update the route
+                    }
                 }
             }
 
@@ -71,7 +68,7 @@ function dijkstra (g: Graph, start: Node, end: Node) returns Walk
         }
         return true;
     }
-    
+
     private boolean endVisited(Map original, Room end){
 
         for (int i = 0; i < original.getAll_rooms().length; i++) {
@@ -82,8 +79,5 @@ function dijkstra (g: Graph, start: Node, end: Node) returns Walk
         return false;
     }
 
-
-    
+     */
 }
-
- */
