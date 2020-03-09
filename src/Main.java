@@ -11,6 +11,7 @@ public class Main {
 
         Map m = new Map();
 
+        /*
         for (int i = 0; i < m.all_rooms.length; i++) {
             System.out.println("CONNECTED TO ROOM WITH ID: " + i);
             for (int j = 0; j < m.all_rooms[i].getAttachedTo().length; j++) {
@@ -19,10 +20,11 @@ public class Main {
                     System.out.println("ROOM ID: " + m.all_rooms[i].getAttachedTo()[j].getRooms()[k].getRoom_id());
                     //System.out.println(m.all_rooms[i].getAttachedTo()[j].getRooms().length);
                     //System.out.println("ENEMY PROBABILITY: " + m.all_rooms[i].getAttachedTo()[j].getEnemy_probability());
-
                 }
             }
         }
+
+        */
 
         /*
         for (int i = 0; i < m.all_rooms[3].getAttachedTo().length; i++) {
@@ -33,9 +35,9 @@ public class Main {
         }
         */
 
-        //m.setStartEnd();
-        //m.dijkstra();
-        //System.out.println("Room: " + m.end.getRoom_id());
+        m.setStartEnd();
+        m.dijkstra();
+        System.out.println("Room: " + m.end.getRoom_id());
 
         //System.out.println(Arrays.toString(soultion));
 

@@ -170,19 +170,15 @@ public class Map {
 
         //while there are nodes left to visit and end is not visited do
         while(!allVisited() && !endVisited(end)){
-
             for (int i = 0; i < current.getAttachedTo().length; i++) {
                 for (int j = 0; j < current.getAttachedTo()[i].getRooms().length; j++) {
 
                     if(!all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited()){
-                        prob = probabilities[current.getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability();
-
+                        prob = (probabilities[current.getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability());
                         //get the new probability of going to that node
                         if(probabilities[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] > prob){
+                            //update the probabilities (distance array) for next room
                             probabilities[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] = prob;
-                            //update the candidate for next room
-                            best_room_index = current.getAttachedTo()[i].getRooms()[j].getRoom_id();
-
                             //update walk
                             walk[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] = current.getRoom_id();
                         }
@@ -192,19 +188,21 @@ public class Map {
 
             all_rooms[current.getRoom_id()].setVisitedTrue();
 
-            int min = probabilities[current.getRoom_id()] + current.getAttachedTo()[0].getEnemy_probability();
+            int min = Integer.MAX_VALUE;
             next_room_index = current.getAttachedTo()[0].getRooms()[0].getRoom_id();
 
             for (int i = 0; i < current.getAttachedTo().length; i++) {
                 for (int j = 0; j < current.getAttachedTo()[i].getRooms().length; j++) {
-                    if(current.getAttachedTo()[i].getEnemy_probability() < min && !all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited()) {
-                        min = current.getAttachedTo()[i].getEnemy_probability();
+                    if((current.getAttachedTo()[i].getEnemy_probability() + probabilities[current.getRoom_id()]) < min && !all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited()) {
+                        min = (current.getAttachedTo()[i].getEnemy_probability() + probabilities[current.getRoom_id()]);
                         next_room_index = current.getAttachedTo()[i].getRooms()[j].getRoom_id();
                     }
                 }
             }
             current = all_rooms[next_room_index];
         }
+        System.out.println(Arrays.toString(probabilities));
+
 
         printSolution(walk, end.getRoom_id());
 
