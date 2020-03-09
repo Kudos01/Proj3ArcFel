@@ -4,11 +4,11 @@ public class Room {
 
     private int id;
     private String room_name;
-    private Boolean visited;
-    private Connection attachedTo;
+    private boolean visited;
+    private Adjacent[] attachedTo;
 
 
-    public void setAttachedTo(Connection attachedTo) {
+    public void setAttachedTo(Adjacent[] attachedTo) {
         this.attachedTo = attachedTo;
     }
 
@@ -34,7 +34,7 @@ public class Room {
         this.visited = false;
     }
 
-    public Boolean getVisited() { return visited; }
+    public boolean getVisited() { return visited; }
 
     public int getRoom_id() {
         return id;
@@ -44,7 +44,7 @@ public class Room {
         return room_name;
     }
 
-    public Connection getAttachedTo() {
+    public Adjacent[] getAttachedTo() {
         return attachedTo;
     }
 }
