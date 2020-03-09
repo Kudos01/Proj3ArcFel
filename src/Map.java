@@ -6,14 +6,25 @@ public class Map {
     //map should contain all rooms and connections
     public Room[] all_rooms;
     public Connection[] all_connections;
-    //private HashMap<String, Connection>[] adjacency_list;
-    //private int[] startEndRooms = new int[2];
+    public Room start;
+    public Room end;
 
-    public Map() throws Exception {
+    public Map(){
         this.all_rooms = JsonParser.parseRoom();
         this.all_connections = JsonParser.parseConnection();
         //this.adjacency_list = this.makeList();
         setAdjacents();
+    }
+
+    public void setStartEnd(){
+        Scanner s = new Scanner(System.in);
+
+        System.out.println("Please insert the starting room: ");
+        this.start = new Room(all_rooms[s.nextInt()]);
+
+        System.out.println("Please insert the ending room: ");
+        this.end = new Room(all_rooms[s.nextInt()]);
+
     }
 
     /*
@@ -139,9 +150,6 @@ public class Map {
 
     public int[] dijkstra(){
 
-        Room start = all_rooms[0];
-        Room end = all_rooms[10];
-
         int prob;
         int next_room_index;
         int best_room_index = 0;
@@ -165,6 +173,7 @@ public class Map {
 
             for (int i = 0; i < current.getAttachedTo().length; i++) {
                 for (int j = 0; j < current.getAttachedTo()[i].getRooms().length; j++) {
+
                     if(!all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited()){
                         prob = probabilities[current.getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability();
 
@@ -173,6 +182,9 @@ public class Map {
                             probabilities[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] = prob;
                             //update the candidate for next room
                             best_room_index = current.getAttachedTo()[i].getRooms()[j].getRoom_id();
+
+                            //update walk
+                            walk[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] = current.getRoom_id();
                         }
                     }
                 }
@@ -191,14 +203,10 @@ public class Map {
                     }
                 }
             }
-            //update walk
-            walk[next_room_index] = walks_counter;
-            walks_counter++;
-
             current = all_rooms[next_room_index];
         }
 
-        System.out.println(Arrays.toString(probabilities));
+        printSolution(walk, end.getRoom_id());
 
         return walk;
     }
@@ -229,5 +237,14 @@ public class Map {
 
     public Connection[] getAll_connections() {
         return all_connections;
+    }
+
+    public void printSolution(int[] solution, int pos){
+        if(solution[pos] == start.getRoom_id()){
+            System.out.println("Room: " + start.getRoom_id());
+        }else{
+            printSolution(solution, solution[pos]);
+            System.out.println("Room: " + solution[pos]);
+        }
     }
 }

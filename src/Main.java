@@ -36,16 +36,20 @@ public class Main {
         }
         */
 
-        int[] soultion = m.dijkstra();
+        m.setStartEnd();
+        m.dijkstra();
+        System.out.println("Room: " + m.end.getRoom_id());
 
-        System.out.println(Arrays.toString(soultion));
+        //System.out.println(Arrays.toString(soultion));
 
+        /*
         for (int i = 0; i < soultion.length; i++) {
-
             if(soultion[i] != 0){
                 System.out.println("Room "+ i);
             }
-
         }
+
+        */
+
     }
 }
