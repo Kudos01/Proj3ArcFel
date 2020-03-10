@@ -9,6 +9,14 @@ public class Main {
 
         System.out.println("Beans");
 
+         /*
+        Things to ask Marc/Dani
+        Bidirectional -> should we check or is it fine?
+
+
+        what are we checking? what are we not chcekign?
+         */
+
         Map m = new Map();
 
         /*

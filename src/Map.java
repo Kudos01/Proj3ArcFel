@@ -127,6 +127,43 @@ public class Map {
     }
      */
 
+    private boolean checkAdjacents(Room given){
+        
+        int flag = 0;
+
+        boolean[] adjAreVisited = new boolean[given.getAttachedTo().length];
+
+        for (int i = 0; i < given.getAttachedTo().length; i++) {
+            int counter=0;
+            for (int j = 0; j < given.getAttachedTo()[i].getRooms().length; j++) {
+                if(given.getAttachedTo()[i].getRooms()[j].getVisited()){
+                    counter++;
+                }
+
+            }
+            if(counter == given.getAttachedTo()[i].getRooms().length){
+                adjAreVisited[i] = true;
+            }
+            else{
+                adjAreVisited[i] = false;
+            }
+            
+        }
+
+        for (int i = 0; i < adjAreVisited.length; i++) {
+            if(adjAreVisited[i] == true){
+                flag++;
+            }
+        }
+        if(flag == adjAreVisited.length){
+
+            return true;
+            
+        }
+
+        return false;
+    }
+
     public int[] dijkstra(){
 
         int prob;
