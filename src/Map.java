@@ -10,10 +10,17 @@ public class Map {
     public Room end;
 
     public Map(){
+        System.out.println("Parsing the Rooms Json..");
         this.all_rooms = JsonParser.parseRoom();
+        System.out.println("Done");
+        System.out.println("");
+        System.out.println("Parsing the Connections Json..");
         this.all_connections = JsonParser.parseConnection();
+        System.out.println("Done");
         //this.adjacency_list = this.makeList();
+        System.out.println("Finding the adjacents to each room...");
         setAdjacents();
+        System.out.println("Done");
     }
 
     public void setStartEnd(){
@@ -26,48 +33,6 @@ public class Map {
         this.end = new Room(all_rooms[s.nextInt()]);
 
     }
-
-    /*
-    private void askForRooms(){
-        Scanner s = new Scanner(System.in);
-        System.out.println("Please Enter the starting room: ");
-        startEndRooms[0] = s.nextInt();
-        System.out.println("Please Enter the ending room: ");
-        startEndRooms[1] = s.nextInt();
-    }
-     */
-
-
-    /*
-    public Adjacent[] getAdjacents(Room given){
-        StringBuilder sb = new StringBuilder();
-        int connections = 0;
-        for (int i = 0; i < all_connections.length; i++) {
-            sb.append(given.getRoom_id());
-            sb.append("_");
-            sb.append(all_connections[i].getConnection_id());
-            if (adjacency_list[given.getRoom_id()].get(sb.toString()) != null) {
-                connections++;
-            }
-            sb.delete(0, sb.length());
-        }
-        Adjacent[] connections_of_room = new Adjacent[connections];
-        connections = 0;
-        for (int i = 0; i < all_connections.length; i++) {
-            sb.append(given.getRoom_id());
-            sb.append("_");
-            sb.append(all_connections[i].getConnection_id());
-            if (adjacency_list[given.getRoom_id()].get(sb.toString()) != null) {
-                connections_of_room[connections] = new Adjacent(new Room[all_connections[i].getConnected_rooms().length], all_connections[i].getEnemy_probability());
-                connections_of_room[connections].setRoomsBasedOnIDs(all_connections[i].getConnected_rooms(), all_rooms);
-                connections++;
-            }
-            sb.delete(0, sb.length());
-        }
-        all_rooms[given.getRoom_id()].setAttachedTo(connections_of_room);
-        return connections_of_room;
-    }
-     */
 
 
     public void setAdjacents(){
@@ -104,64 +69,31 @@ public class Map {
         }
     }
 
-    /*
-    public HashMap<String, Connection>[] makeList(){
-        HashMap[] adjacent = new HashMap[all_rooms.length];
-        StringBuilder sb = new StringBuilder();
-        //for each room
-        for (int i = 0; i < all_rooms.length; i++) {
-            adjacent[i] = new HashMap<>();
-            for (int j = 0; j < all_connections.length; j++) {
-                for (int k = 0; k < all_connections[j].getConnected_rooms().length; k++) {
-                    if (all_connections[j].getConnected_rooms()[k] == all_rooms[i].getRoom_id()) {
-                        sb.append(all_rooms[i].getRoom_id());
-                        sb.append("_");
-                        sb.append(all_connections[j].getConnection_id());
-                        adjacent[i].put(sb.toString(), all_connections[j]);
-                    }
-                    sb.delete(0, sb.length());
-                }
-            }
-        }
-        return adjacent;
-    }
-     */
+    private boolean haveSomewhereToGo(int room_id){
 
-    private boolean checkAdjacents(Room given){
-        
-        int flag = 0;
+        Room given = all_rooms[room_id];
 
-        boolean[] adjAreVisited = new boolean[given.getAttachedTo().length];
+        int num_visited=0;
+        int counter_adjacent;
 
+        //for this adjacent
         for (int i = 0; i < given.getAttachedTo().length; i++) {
-            int counter=0;
+            //get each of its adjacents
+            counter_adjacent=0;
             for (int j = 0; j < given.getAttachedTo()[i].getRooms().length; j++) {
                 if(given.getAttachedTo()[i].getRooms()[j].getVisited()){
-                    counter++;
+                    counter_adjacent++;
                 }
-
             }
-            if(counter == given.getAttachedTo()[i].getRooms().length){
-                adjAreVisited[i] = true;
-            }
-            else{
-                adjAreVisited[i] = false;
-            }
-            
-        }
-
-        for (int i = 0; i < adjAreVisited.length; i++) {
-            if(adjAreVisited[i] == true){
-                flag++;
+            if(counter_adjacent == given.getAttachedTo()[i].getRooms().length){
+                num_visited++;
             }
         }
-        if(flag == adjAreVisited.length){
-
-            return true;
-            
+        if(num_visited == given.getAttachedTo().length){
+            return false;
         }
+        return true;
 
-        return false;
     }
 
     public int[] dijkstra(){
@@ -190,7 +122,7 @@ public class Map {
             for (int i = 0; i < current.getAttachedTo().length; i++) {
                 for (int j = 0; j < current.getAttachedTo()[i].getRooms().length; j++) {
 
-                    if(!all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited()){
+                    if(!all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited()/*&& haveSomewhereToGo(current.getAttachedTo()[i].getRooms()[j].getRoom_id())*/ ){
                         prob = probabilities[current.getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability();
 
                         //get the new probability of going to that node
@@ -213,7 +145,10 @@ public class Map {
 
             for (int i = 0; i < current.getAttachedTo().length; i++) {
                 for (int j = 0; j < current.getAttachedTo()[i].getRooms().length; j++) {
-                    if(current.getAttachedTo()[i].getEnemy_probability() < min && !all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited()) {
+                    //if the value is better than the minimum prob so far
+                    //and that node has not been visited
+                    //and that node has somewhere to go
+                    if(current.getAttachedTo()[i].getEnemy_probability() < min && (!all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited() && haveSomewhereToGo(current.getAttachedTo()[i].getRooms()[j].getRoom_id()))) {
                         min = current.getAttachedTo()[i].getEnemy_probability();
                         next_room_index = current.getAttachedTo()[i].getRooms()[j].getRoom_id();
                     }

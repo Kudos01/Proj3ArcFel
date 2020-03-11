@@ -8,55 +8,23 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         System.out.println("Beans");
-
-         /*
-        Things to ask Marc/Dani
-        Bidirectional -> should we check or is it fine?
-
-
-        what are we checking? what are we not chcekign?
-         */
-
         Map m = new Map();
 
-        /*
-        for (int i = 0; i < m.all_rooms.length; i++) {
-            System.out.println("CONNECTED TO ROOM WITH ID: " + i);
-            for (int j = 0; j < m.all_rooms[i].getAttachedTo().length; j++) {
-                //System.out.println(m.all_rooms[i].getAttachedTo()[j]);
-                for (int k = 0; k < m.all_rooms[i].getAttachedTo()[j].getRooms().length; k++) {
-                    System.out.println("ROOM ID: " + m.all_rooms[i].getAttachedTo()[j].getRooms()[k].getRoom_id());
-                    //System.out.println(m.all_rooms[i].getAttachedTo()[j].getRooms().length);
-                    //System.out.println("ENEMY PROBABILITY: " + m.all_rooms[i].getAttachedTo()[j].getEnemy_probability());
-                }
-            }
-        }
-
-        */
-
-        /*
-        for (int i = 0; i < m.all_rooms[3].getAttachedTo().length; i++) {
-            System.out.println("Probability: " + m.all_rooms[3].getAttachedTo()[i].getEnemy_probability());
-            for (int j = 0; j < m.all_rooms[3].getAttachedTo()[i].getRooms().length; j++) {
-                System.out.println("Room: " + m.all_rooms[3].getAttachedTo()[i].getRooms()[j].getRoom_id());
-            }
-        }
-        */
-
         m.setStartEnd();
+
+        System.out.println("All parsing finished");
+        //System.out.println("Starting timer...");
+        long startTime = System.nanoTime();
         m.dijkstra();
+        long endTime = System.nanoTime();
+        //System.out.println("End Timer");
+
         System.out.println("Room: " + m.end.getRoom_id());
 
-        //System.out.println(Arrays.toString(soultion));
+        //long duration = (endTime - startTime)/10000;
+        //System.out.println("Time taken:"+ duration);
 
-        /*
-        for (int i = 0; i < soultion.length; i++) {
-            if(soultion[i] != 0){
-                System.out.println("Room "+ i);
-            }
-        }
 
-        */
 
     }
 }
