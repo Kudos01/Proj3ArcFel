@@ -146,8 +146,7 @@ public class Map {
                     //and that node has not been visited
                     //and that node has somewhere to go
                     if((probabilities[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability()) < min
-                            && !all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited()
-                            && haveSomewhereToGo(current.getAttachedTo()[i].getRooms()[j].getRoom_id())){
+                            && !all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited()){
 
                         min = probabilities[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability();
                         next_room_index = current.getAttachedTo()[i].getRooms()[j].getRoom_id();
