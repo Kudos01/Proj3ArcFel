@@ -110,14 +110,14 @@ public class Map {
         int min =0;
 
         //fill rooms with connected to?
-
         //while there are nodes left to visit and end is not visited do
-        while(!allVisited() && !endVisited(end)){
-
+        while(!allVisited() && !endVisited()){
+            //for all of the adjacents
             for (int i = 0; i < current.getAttachedTo().length; i++) {
                 for (int j = 0; j < current.getAttachedTo()[i].getRooms().length; j++) {
 
-                    if(!all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited()/*&& haveSomewhereToGo(current.getAttachedTo()[i].getRooms()[j].getRoom_id())*/ ){
+                    //if this adjacent hasn't been visited
+                    if(!all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited() && haveSomewhereToGo(current.getAttachedTo()[i].getRooms()[j].getRoom_id())){
                         prob = probabilities[current.getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability();
 
                         //get the new probability of going to that node
@@ -144,7 +144,6 @@ public class Map {
                 for (int j = 0; j < current.getAttachedTo()[i].getRooms().length; j++) {
                     //if the value is better than the minimum prob so far
                     //and that node has not been visited
-                    //and that node has somewhere to go
                     if((probabilities[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability()) < min
                             && !all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited()){
 
@@ -175,22 +174,8 @@ public class Map {
         return true;
     }
 
-    private boolean endVisited(Room end){
-
-        for (int i = 0; i < all_rooms.length; i++) {
-            if(all_rooms[i].getVisited() && all_rooms[i].getRoom_id() == end.getRoom_id()){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Room[] getAll_rooms() {
-        return all_rooms;
-    }
-
-    public Connection[] getAll_connections() {
-        return all_connections;
+    private boolean endVisited(){
+        return end.getVisited();
     }
 
     public void printSolution(int[] solution, int pos){
