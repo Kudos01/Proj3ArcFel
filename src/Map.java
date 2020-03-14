@@ -145,10 +145,10 @@ public class Map {
                     //if the value is better than the minimum prob so far
                     //and that node has not been visited
                     //and that node has somewhere to go
-                    if((probabilities[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability()) < min
+                    if((probabilities[current.getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability()) < min
                             && !all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited()){
 
-                        min = probabilities[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability();
+                        min = probabilities[current.getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability();
                         next_room_index = current.getAttachedTo()[i].getRooms()[j].getRoom_id();
                     }
                 }
@@ -157,8 +157,6 @@ public class Map {
             //System.out.println("Next room is: " + next_room_index);
             //System.out.println("Current updated");
         }
-
-        System.out.println("ending");
 
         printSolution(walk, end.getRoom_id());
 
