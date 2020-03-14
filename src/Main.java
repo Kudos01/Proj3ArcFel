@@ -24,7 +24,5 @@ public class Main {
         //long duration = (endTime - startTime)/10000;
         //System.out.println("Time taken:"+ duration);
 
-
-
     }
 }
