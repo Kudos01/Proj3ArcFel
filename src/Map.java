@@ -135,7 +135,7 @@ public class Map {
 
             all_rooms[current.getRoom_id()].setVisitedTrue();
 
-            min = probabilities[current.getRoom_id()];
+            min = Integer.MAX_VALUE;
             next_room_index = current.getAttachedTo()[0].getRooms()[0].getRoom_id();
 
             for (int i = 0; i < current.getAttachedTo().length; i++) {
