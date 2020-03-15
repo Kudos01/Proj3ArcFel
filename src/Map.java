@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -97,19 +98,20 @@ public class Map {
         int prob;
         int next_room_index;
 
-        //routes -> List of the walks to each node from start
-        //Route[] routes = new Route[0];
         int[] walk = new int[all_rooms.length];
-        int[] probabilities = new int[all_connections.length];
+        int[] distances = new int[all_rooms.length];
 
-        Arrays.fill(probabilities, Integer.MAX_VALUE);
-        probabilities[start.getRoom_id()] = 0;
+        Arrays.fill(distances, Integer.MAX_VALUE);
+        distances[start.getRoom_id()] = 0;
+
+        double[] probabilities = new double[all_rooms.length];
+
+        Arrays.fill(probabilities, 1);
+        //probabilities[0] = 0;
 
         Room current = start;
 
-        int min =0;
-
-        //fill rooms with connected to?
+        int min;
 
         //while there are nodes left to visit and end is not visited do
         while(!allVisited() && !endVisited(end)){
@@ -117,19 +119,20 @@ public class Map {
             for (int i = 0; i < current.getAttachedTo().length; i++) {
                 for (int j = 0; j < current.getAttachedTo()[i].getRooms().length; j++) {
 
-                    if(!all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited()/*&& haveSomewhereToGo(current.getAttachedTo()[i].getRooms()[j].getRoom_id())*/ ){
-                        prob = probabilities[current.getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability();
+                    if(!all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited()){
+                        prob = distances[current.getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability();
 
                         //get the new probability of going to that node
-                        if(probabilities[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] > prob){
-                            probabilities[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] = prob;
+                        if(distances[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] > prob){
+                            distances[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] = prob;
                             //update the candidate for next room
                             //best_room_index = current.getAttachedTo()[i].getRooms()[j].getRoom_id();
 
                             //update walk
                             walk[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] = current.getRoom_id();
 
-                            //System.out.println("WALK UPDATED");
+                            //update probability
+                            probabilities[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] = ((1 - current.getAttachedTo()[i].getEnemy_probability()/100.0) * probabilities[current.getRoom_id()]);
                         }
                     }
                 }
@@ -145,23 +148,21 @@ public class Map {
                     //if the value is better than the minimum prob so far
                     //and that node has not been visited
                     //and that node has somewhere to go
-                    if((probabilities[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability()) < min
+                    if((distances[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability()) < min
                             && !all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited()){
 
-                        min = probabilities[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability();
+                        min = distances[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability();
                         next_room_index = current.getAttachedTo()[i].getRooms()[j].getRoom_id();
                     }
                 }
             }
             current = all_rooms[next_room_index];
-            //System.out.println("Next room is: " + next_room_index);
-            //System.out.println("Current updated");
         }
 
-        System.out.println("ending");
-
         printSolution(walk, end.getRoom_id());
+        System.out.println("Room: " + end.getRoom_id());
 
+        System.out.println("Probability of not finding an enemy: " + probabilities[end.getRoom_id()]*100 + "%");
         return walk;
     }
 

@@ -29,8 +29,6 @@ public class Main {
         //long endTime = System.nanoTime();
         //System.out.println("End Timer");
 
-        System.out.println("Room: " + m.end.getRoom_id());
-
         //long duration = (endTime - startTime)/10000;
         //System.out.println("Time taken:"+ duration);
 
