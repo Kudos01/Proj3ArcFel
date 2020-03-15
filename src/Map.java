@@ -108,11 +108,8 @@ public class Map {
         Arrays.fill(comp_probs, 0);
         //probabilities[start.getRoom_id()] = 0;
         comp_probs[start.getRoom_id()] = 1;
-
         Room current = start;
-
         double max =0;
-
         //fill rooms with connected to?
         //while there are nodes left to visit and end is not visited do
         while(!allVisited() && !endVisited()){
@@ -137,11 +134,8 @@ public class Map {
                         else{
                             enemy = (current.getAttachedTo()[i].getEnemy_probability()/100.0) * probabilities[current.getRoom_id()];
                             no_enemy = 1-enemy;
-
-                            //comp_probs[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] = no_enemy;
                             //probabilities[current.getAttachedTo()[i].getRooms()[j].getRoom_id()]= enemy;
                         }
-
 
                         //get the new probability of going to that node
                         if(comp_probs[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] < no_enemy){
@@ -173,11 +167,23 @@ public class Map {
                             && !all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited()){
 
                         max = 1-((current.getAttachedTo()[i].getEnemy_probability()/100.0) * probabilities[current.getRoom_id()]);
+
                         next_room_index = current.getAttachedTo()[i].getRooms()[j].getRoom_id();
                     }
                 }
             }
-            current = all_rooms[next_room_index];
+
+            if(next_room_index == end.getRoom_id()){
+                System.out.println("ending");
+
+                printSolution(walk, end.getRoom_id());
+
+                return walk;
+
+            }
+            else{
+                current = all_rooms[next_room_index];
+            }
             //System.out.println("Next room is: " + next_room_index);
             //System.out.println("Current updated");
         }
