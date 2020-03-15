@@ -97,21 +97,21 @@ public class Map {
         int prob;
         int comp_prob;
         int next_room_index;
-        float no_enemy;
-        float enemy;
+        double no_enemy;
+        double enemy;
 
         int[] walk = new int[all_rooms.length];
-        float[] probabilities = new float[all_connections.length];
-        float[] comp_probs = new float[all_rooms.length];
+        double[] probabilities = new double[all_connections.length];
+        double[] comp_probs = new double[all_rooms.length];
 
-        Arrays.fill(probabilities, Integer.MAX_VALUE);
-        Arrays.fill(comp_probs, 1);
-        probabilities[start.getRoom_id()] = 0;
-        comp_probs[start.getRoom_id()] = 0;
+        Arrays.fill(probabilities, 1);
+        Arrays.fill(comp_probs, 0);
+        //probabilities[start.getRoom_id()] = 0;
+        comp_probs[start.getRoom_id()] = 1;
 
         Room current = start;
 
-        int min =0;
+        double max =0;
 
         //fill rooms with connected to?
         //while there are nodes left to visit and end is not visited do
@@ -121,28 +121,32 @@ public class Map {
                 for (int j = 0; j < current.getAttachedTo()[i].getRooms().length; j++) {
 
                     //if this adjacent hasn't been visited
-                    if(!all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited() && haveSomewhereToGo(current.getAttachedTo()[i].getRooms()[j].getRoom_id())){
+                    if(!all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited()){
                         //prob = probabilities[current.getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability();
                         if(current.getRoom_id() == start.getRoom_id()){
                             //get the probability of finding an enemy
-                            enemy = (float) current.getAttachedTo()[i].getEnemy_probability()/100;
+                            enemy = current.getAttachedTo()[i].getEnemy_probability()/100.0;
                             //get the probability of not finding an enemy
                             no_enemy = 1-enemy;
                             //store both
-                            comp_probs[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] = no_enemy;
-                            probabilities[current.getAttachedTo()[i].getRooms()[j].getRoom_id()]= enemy;
+                            //comp_probs[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] = no_enemy;
+                            //probabilities[current.getAttachedTo()[i].getRooms()[j].getRoom_id()]= enemy;
                             //comp_prob = 1 - ((1-probabilities[current.getRoom_id()])*(1-current.getAttachedTo()[i].getEnemy_probability()));
 
                         }
                         else{
-                            //son why you screm
+                            enemy = (current.getAttachedTo()[i].getEnemy_probability()/100.0) * probabilities[current.getRoom_id()];
+                            no_enemy = 1-enemy;
 
+                            //comp_probs[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] = no_enemy;
+                            //probabilities[current.getAttachedTo()[i].getRooms()[j].getRoom_id()]= enemy;
                         }
 
 
                         //get the new probability of going to that node
-                        if(comp_probs[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] < comp_prob){
-                            comp_probs[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] = comp_prob;
+                        if(comp_probs[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] < no_enemy){
+                            comp_probs[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] = no_enemy;
+                            probabilities[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] = enemy;
                             //comp_probs[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] = comp_prob;
                             //update the candidate for next room
                             //best_room_index = current.getAttachedTo()[i].getRooms()[j].getRoom_id();
@@ -158,17 +162,17 @@ public class Map {
 
             all_rooms[current.getRoom_id()].setVisitedTrue();
 
-            min = 0;
+            max = 0;
             next_room_index = current.getAttachedTo()[0].getRooms()[0].getRoom_id();
 
             for (int i = 0; i < current.getAttachedTo().length; i++) {
                 for (int j = 0; j < current.getAttachedTo()[i].getRooms().length; j++) {
                     //if the value is better than the minimum prob so far
                     //and that node has not been visited
-                    if((comp_probs[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability()) > min
+                    if(1-((current.getAttachedTo()[i].getEnemy_probability()/100.0) * probabilities[current.getRoom_id()]) > max
                             && !all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited()){
 
-                        min = comp_probs[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability();
+                        max = 1-((current.getAttachedTo()[i].getEnemy_probability()/100.0) * probabilities[current.getRoom_id()]);
                         next_room_index = current.getAttachedTo()[i].getRooms()[j].getRoom_id();
                     }
                 }
