@@ -23,13 +23,13 @@ public class Main {
 
         m.setStartEnd();
 
-            System.out.println("Starting timer...");
-            long startTime = System.nanoTime();
-            m.dijkstra();
-            long endTime = System.nanoTime();
-            System.out.println("Done\n");
+        System.out.println("Starting timer...");
+        long startTime = System.nanoTime();
+        m.dijkstra();
+        long endTime = System.nanoTime();
+        System.out.println("Done\n");
 
-            double duration = (endTime - startTime)/1000000000.0;
-            System.out.println("Time taken: " + duration + " Seconds\n");
+        double duration = (endTime - startTime)/1000000.0;
+        System.out.println("Time taken for dijkstra: " + duration + " milliseconds\n");
     }
 }

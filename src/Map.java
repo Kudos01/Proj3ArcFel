@@ -12,13 +12,18 @@ public class Map {
     public Map(){
         System.out.println("Parsing the Rooms Json..");
         this.all_rooms = JsonParser.parseRoom();
-        System.out.println("Done");
-        System.out.println("");
+        System.out.println("Done\n");
         System.out.println("Parsing the Connections Json..");
         this.all_connections = JsonParser.parseConnection();
         System.out.println("Done");
         System.out.println("Finding the adjacents to each room...");
+        long startTime = System.nanoTime();
         setAdjacents();
+        long endTime = System.nanoTime();
+
+        double duration = (endTime - startTime)/1000000.0;
+        System.out.println("Time taken to find adjacents: " + duration + " milliseconds\n");
+
         System.out.println("Done");
     }
 

@@ -9,8 +9,8 @@ import java.util.Arrays;
 
 public class JsonParser {
 
-    private static String FILEPATH_CONNECTION = "resources/ConnectionS.json";
-    private static String FILEPATH_ROOM = "resources/RoomS.json";
+    private static String FILEPATH_CONNECTION = "resources/ConnectionM.json";
+    private static String FILEPATH_ROOM = "resources/RoomM.json";
 
     public static Room[] parseRoom(){
 

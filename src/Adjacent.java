@@ -20,7 +20,6 @@ public class Adjacent {
                 counter++;
             }
         }
-
     }
 
     public void setEnemy_probability(int enemy_probability) {
