@@ -98,16 +98,17 @@ public class Map {
         int prob;
         int next_room_index;
 
+        //array for storing the walks
         int[] walk = new int[all_rooms.length];
-        int[] distances = new int[all_rooms.length];
 
+        //array to add up the probabilities and find the shortest path
+        int[] distances = new int[all_rooms.length];
         Arrays.fill(distances, Integer.MAX_VALUE);
         distances[start.getRoom_id()] = 0;
 
+        //array for storing the probabilities of not finding an enemy up to a particular room
         double[] probabilities = new double[all_rooms.length];
-
         Arrays.fill(probabilities, 1);
-        //probabilities[0] = 0;
 
         Room current = start;
 
@@ -147,7 +148,6 @@ public class Map {
                 for (int j = 0; j < current.getAttachedTo()[i].getRooms().length; j++) {
                     //if the value is better than the minimum prob so far
                     //and that node has not been visited
-                    //and that node has somewhere to go
                     if((distances[current.getAttachedTo()[i].getRooms()[j].getRoom_id()] + current.getAttachedTo()[i].getEnemy_probability()) < min
                             && !all_rooms[current.getAttachedTo()[i].getRooms()[j].getRoom_id()].getVisited()){
 
@@ -156,12 +156,15 @@ public class Map {
                     }
                 }
             }
+            //update the current with the one found
             current = all_rooms[next_room_index];
         }
 
+        //Print the path to the end room
         printSolution(walk, end.getRoom_id());
         System.out.println("Room: " + end.getRoom_id());
 
+        //Print out the probability of not finding an enemy of the whole path
         System.out.println("Probability of not finding an enemy: " + probabilities[end.getRoom_id()]*100 + "%");
         return walk;
     }
