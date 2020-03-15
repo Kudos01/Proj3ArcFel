@@ -1,3 +1,5 @@
+
+//class to store the adjacent rooms to a room, with the probability of finding an enemy between the rooms
 public class Adjacent {
 
     private Room[] rooms;

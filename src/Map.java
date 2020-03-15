@@ -1,6 +1,4 @@
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class Map {
@@ -9,6 +7,7 @@ public class Map {
     public Connection[] all_connections;
     public Room start;
     public Room end;
+    private static final Scanner s = new Scanner(System.in);
 
     public Map(){
         System.out.println("Parsing the Rooms Json..");
@@ -18,15 +17,13 @@ public class Map {
         System.out.println("Parsing the Connections Json..");
         this.all_connections = JsonParser.parseConnection();
         System.out.println("Done");
-        //this.adjacency_list = this.makeList();
         System.out.println("Finding the adjacents to each room...");
         setAdjacents();
         System.out.println("Done");
     }
 
+    //method to ask the user for the start and end rooms
     public void setStartEnd(){
-        Scanner s = new Scanner(System.in);
-
         System.out.println("Please insert the starting room: ");
         this.start = new Room(all_rooms[s.nextInt()]);
 
@@ -38,35 +35,45 @@ public class Map {
 
     public void setAdjacents(){
 
+        //counter to know how many connections a room is in
         int connections = 0;
 
+        //for all the rooms
         for (int i = 0; i < all_rooms.length; i++) {
-
+            //for all the connections
             for (int j = 0; j < all_connections.length; j++) {
+                //for al the rooms in a connection
                 for (int k = 0; k < all_connections[j].getConnected_rooms().length; k++) {
+                    //check if the current room exists in the connection, if so add to the counter
                     if (all_connections[j].getConnected_rooms()[k] == all_rooms[i].getRoom_id()) {
                         connections++;
                     }
                 }
             }
 
+            //create an adjacent object with the size of the connections the room is in
             Adjacent[] connections_of_room = new Adjacent[connections];
 
+            //reset the counter
             connections =0;
 
+            //do the same as before but now filling in the information if the enemy probabilities
             for (int j = 0; j < all_connections.length; j++) {
                 for (int k = 0; k < all_connections[j].getConnected_rooms().length; k++) {
                     if (all_connections[j].getConnected_rooms()[k] == all_rooms[i].getRoom_id()) {
+                        //fill the adjacent array with the info of the enemy probabilities and the connected rooms (ignoring that a room is connected to itself)
                         connections_of_room[connections] = new Adjacent(new Room[all_connections[j].getConnected_rooms().length - 1], all_connections[j].getEnemy_probability());
                         connections_of_room[connections].setRoomsBasedOnIDs(all_connections[j].getConnected_rooms(), all_rooms, all_rooms[i].getRoom_id());
+
+                        //increment the counter to fill in the next position
                         connections++;
                     }
                 }
             }
             connections =0;
 
+            //set the attached rooms of the room we iterated through currently
             all_rooms[i].setAttachedTo(connections_of_room);
-
         }
     }
 
@@ -93,7 +100,7 @@ public class Map {
         return num_visited != given.getAttachedTo().length;
     }
 
-    public int[] dijkstra(){
+    public void dijkstra(){
 
         int prob;
         int next_room_index;
@@ -166,7 +173,6 @@ public class Map {
 
         //Print out the probability of not finding an enemy of the whole path
         System.out.println("Probability of not finding an enemy: " + probabilities[end.getRoom_id()]*100 + "%");
-        return walk;
     }
 
 

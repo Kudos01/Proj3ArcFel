@@ -5,6 +5,8 @@ public class Room {
     private int id;
     private String room_name;
     private boolean visited;
+
+    //atribute that tells us which rooms this particular room is connected to and with what enemy probability
     private Adjacent[] attachedTo;
 
 

@@ -30,9 +30,8 @@ public class JsonParser {
 
         }catch (IOException e){
             e.printStackTrace();
-        }finally {
-            return room;
         }
+            return room;
     }
 
     public static Connection[] parseConnection(){
@@ -53,36 +52,8 @@ public class JsonParser {
 
         }catch (IOException e){
             e.printStackTrace();
-        }finally {
-            return connections;
         }
+            return connections;
+
     }
-
-    public static void testParsing(Room[] all_rooms, Connection[] all_connections){
-
-            for (int i = 0; i < all_rooms.length; i++) {
-
-                System.out.println("Room id:");
-                System.out.println(all_rooms[i].getRoom_id());
-                System.out.println("Room name:");
-                System.out.println(all_rooms[i].getRoom_name());
-
-            }
-
-            for (int i = 0; i < all_connections.length; i++) {
-
-                System.out.println("Connection id:");
-                System.out.println(all_connections[i].getConnection_id());
-                System.out.println("Connected Rooms:");
-                System.out.println(Arrays.toString(all_connections[i].getConnected_rooms()));
-                System.out.println("Connection Name:");
-                System.out.println(all_connections[i].getConnection_name());
-                System.out.println("Enemy Prob:");
-                System.out.println(all_connections[i].getEnemy_probability());
-
-            }
-            System.out.println("beans");
-    }
-
-
 }
